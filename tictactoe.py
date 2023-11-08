@@ -107,5 +107,53 @@ def terminal(board):
     return True
 
 
+def utility(board):
+    """
+    Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
+    """
+    won = winner(board)
+    if won == X:
+        return 1
+    elif won == O:
+        return -1
+    else:
+        return 0
+
+
+def minimax(board):
+    """
+    Returns the optimal action for the current player on the board.
+    """
+    if terminal(board):
+        return None
+    
+    curr_player = player(board)
+    all_actions = actions(board)
+    
+    if curr_player == X:
+
+        lar_value = -9999
+        ans = tuple()
+
+        for action in all_actions:
+            val = Minimize(result(board,action), lar_value)
+
+            if val > lar_value:
+                ans = action
+                lar_value = val
+        return ans
+
+    else:
+        small_value = 9999 
+        ans = tuple()
+        for action in all_actions:
+            val = Maximize(result(board,action), small_value)
+            if val < small_value:
+                small_value = val
+                ans = action
+        return ans
+
+
+
 
 
