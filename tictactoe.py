@@ -155,5 +155,31 @@ def minimax(board):
 
 
 
+def Maximize(board, val):
+
+    if terminal(board):
+        return utility(board)
+    
+    value = -9999
+
+    for action in actions(board):
+        value = max(value,Minimize(result(board,action), value))
+        if value >= val:
+            return value
+
+    return value
 
 
+def Minimize(board, val):
+
+    if terminal(board):
+        return utility(board)
+    
+    value = 9999
+
+    for action in actions(board):
+        value = min(value,Maximize(result(board,action), value))
+        if  value <= val:
+            return value
+
+    return value
