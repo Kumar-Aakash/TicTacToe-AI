@@ -52,3 +52,39 @@ while True:
         playORect.center = playOButton.center
         pygame.draw.rect(screen, white, playOButton)
         screen.blit(playO, playORect)
+
+        # Check if button is clicked
+        click, _, _ = pygame.mouse.get_pressed()
+        if click == 1:
+            mouse = pygame.mouse.get_pos()
+            if playXButton.collidepoint(mouse):
+                time.sleep(0.2)
+                user = ttt.X
+            elif playOButton.collidepoint(mouse):
+                time.sleep(0.2)
+                user = ttt.O
+
+    else:
+
+        # Draw game board
+        tile_size = 80
+        tile_origin = (width / 2 - (1.5 * tile_size),
+                       height / 2 - (1.5 * tile_size))
+        tiles = []
+        for i in range(3):
+            row = []
+            for j in range(3):
+                rect = pygame.Rect(
+                    tile_origin[0] + j * tile_size,
+                    tile_origin[1] + i * tile_size,
+                    tile_size, tile_size
+                )
+                pygame.draw.rect(screen, white, rect, 3)
+
+                if board[i][j] != ttt.EMPTY:
+                    move = moveFont.render(board[i][j], True, white)
+                    moveRect = move.get_rect()
+                    moveRect.center = rect.center
+                    screen.blit(move, moveRect)
+                row.append(rect)
+            tiles.append(row)
