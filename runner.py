@@ -88,3 +88,32 @@ while True:
                     screen.blit(move, moveRect)
                 row.append(rect)
             tiles.append(row)
+
+        game_over = ttt.terminal(board)
+        player = ttt.player(board)
+
+        # Show title
+        if game_over:
+            winner = ttt.winner(board)
+            if winner is None:
+                title = f"Game Over: Tie."
+            else:
+                title = f"Game Over: {winner} wins."
+        elif user == player:
+            title = f"Play as {user}"
+        else:
+            title = f"Computer thinking..."
+        title = largeFont.render(title, True, white)
+        titleRect = title.get_rect()
+        titleRect.center = ((width / 2), 30)
+        screen.blit(title, titleRect)
+
+        # Check for AI move
+        if user != player and not game_over:
+            if ai_turn:
+                time.sleep(0.5)
+                move = ttt.minimax(board)
+                board = ttt.result(board, move)
+                ai_turn = False
+            else:
+                ai_turn = True
