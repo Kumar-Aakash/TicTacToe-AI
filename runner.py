@@ -117,3 +117,30 @@ while True:
                 ai_turn = False
             else:
                 ai_turn = True
+
+        # Check for a user move
+        click, _, _ = pygame.mouse.get_pressed()
+        if click == 1 and user == player and not game_over:
+            mouse = pygame.mouse.get_pos()
+            for i in range(3):
+                for j in range(3):
+                    if (board[i][j] == ttt.EMPTY and tiles[i][j].collidepoint(mouse)):
+                        board = ttt.result(board, (i, j))
+
+        if game_over:
+            againButton = pygame.Rect(width / 3, height - 65, width / 3, 50)
+            again = mediumFont.render("Play Again", True, black)
+            againRect = again.get_rect()
+            againRect.center = againButton.center
+            pygame.draw.rect(screen, white, againButton)
+            screen.blit(again, againRect)
+            click, _, _ = pygame.mouse.get_pressed()
+            if click == 1:
+                mouse = pygame.mouse.get_pos()
+                if againButton.collidepoint(mouse):
+                    time.sleep(0.2)
+                    user = None
+                    board = ttt.initial_state()
+                    ai_turn = False
+
+    pygame.display.flip()
